@@ -18,7 +18,7 @@ int main()
 
     unsigned long hash = 504981L;
 
-    const int N = 12000;
+    const int N = 10000;
 
     unsigned int x_min = N / n_ranks * rank;
 
@@ -64,16 +64,15 @@ int main()
         if(solved) break;
     }
 
-    if(winner != 0)
+    if ((rank == 0) && (found[rank] == false))
     {
-        if (rank == 0)
-        {
-            MPI_Recv(&key, 1, MPI_UNSIGNED, winner, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        }
-        else if (found[rank] == true)
-        {
-            MPI_Ssend(&key, 1, MPI_UNSIGNED, 0, 1, MPI_COMM_WORLD);
-        }
+        printf("Trying to recv");
+        MPI_Recv(&key, 1, MPI_UNSIGNED, winner, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+    else if ((rank != 0) && (found[rank] == true))
+    {
+        printf("tryin to send");
+        MPI_Ssend(&key, 1, MPI_UNSIGNED, 0, 1, MPI_COMM_WORLD);
     }
 
     if(rank == 0)
