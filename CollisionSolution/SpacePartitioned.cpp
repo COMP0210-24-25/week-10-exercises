@@ -20,6 +20,11 @@ int main()
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &n_proc);
 
+    if(n_proc != 2)
+    {
+        throw std::runtime_error("This solution is only designed for two processes.");
+    }
+
     const unsigned int WIDTH_FULL = 100;
     const unsigned int HALF_WIDTH = WIDTH_FULL / n_proc;
     const unsigned int HEIGHT = 50;
